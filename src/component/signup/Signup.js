@@ -40,7 +40,9 @@ export default class Signup extends Component {
       axios
         .post(`http://localhost:5000/api/createAccount`, { ...this.state })
         .then((res) => {
-          console.log(res.data);
+          if (res.data.success) {
+            window.location.href = "/dashboard";
+          }
         });
     }
   }

@@ -4,7 +4,9 @@ import axios from "axios";
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isWrongPassword: false,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -12,7 +14,6 @@ export default class Login extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    console.table(this.state);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -20,7 +21,21 @@ export default class Login extends Component {
       .post(`http://localhost:5000/api/login`, { ...this.state })
       .then((res) => {
         console.log(res.data);
+        if (res.data.success) {
+          localStorage.setItem("token", res.data.token);
+          window.location.href = "/dashboard";
+        } else {
+          alert("wrong password");
+          this.setState({
+            isWrongPassword: true,
+          });
+        }
       });
+  }
+  componentDidMount() {
+    if (localStorage.getItem("token")) {
+      window.location.href = "/dashboard";
+    }
   }
   render() {
     return (
@@ -40,7 +55,9 @@ export default class Login extends Component {
             required
             onChange={this.handleChange}
           />
-
+          {this.state.isWrongPassword ? (
+            <p>Wrong username or password</p>
+          ) : null}
           <button>Sigin in</button>
         </form>
       </div>

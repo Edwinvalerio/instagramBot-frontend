@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "./component/login/Login";
 import Signup from "./component/signup/Signup";
+import DashBoard from "./component/dashborad/DashBoard";
 import { NavLink, Switch, Route } from "react-router-dom";
 
 import "./App.css";
@@ -16,7 +17,6 @@ export class App extends React.Component {
       <div>
         <header>
           <NavLink to="/">Home</NavLink>
-
           <div>
             <NavLink className="nav-link" to="/about">
               About
@@ -31,6 +31,7 @@ export class App extends React.Component {
         </header>
         <h1>hell from app</h1>
         <Switch>
+          <Route exact path="/dashboard" component={DashBoard} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/Signup" component={Signup} />
         </Switch>
