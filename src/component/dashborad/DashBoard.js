@@ -4,7 +4,7 @@ import Chart from "../chart/Chart";
 import Header from "../header/Header";
 import "./DashBoard.css";
 import axios from "axios";
-import { RadialBarChart } from "recharts";
+
 // import { GlobalData } from "../../context/GlobalData";
 export class DashBoard extends React.Component {
   constructor(props) {
@@ -16,8 +16,19 @@ export class DashBoard extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
     this.handleChange = this.handleChange.bind(this);
+
+    // INSERT COMMENT AND HASHTAG
+    this.insertComment = this.insertComment.bind(this);
+    this.insertHashTags = this.insertHashTags.bind(this);
+
+    // TO ACTIVATE BOT
     this.handleStartBot = this.handleStartBot.bind(this);
+    // TOGLE TO ACTIVATE LIKES, COMMENT, FOLLOW
     this.handleLikePost = this.handleLikePost.bind(this);
+    this.handleCommentPost = this.handleCommentPost.bind(this);
+    this.handleFollowAccount = this.handleFollowAccount.bind(this);
+
+    // INSERT COMMENT
   }
   handleSignOut() {
     localStorage.clear();
@@ -50,7 +61,41 @@ export class DashBoard extends React.Component {
         }
       });
   }
-  handleChange(e) {}
+  handleChange(e) {
+    if (!e.target.value.includes(" ") && e.target.name === "hashTag") {
+      this.setState({
+        [e.target.name]: e.target.value,
+      });
+    } else {
+      console.log("SPACE NOT ALLOWED");
+      console.log(this.state.hashTag);
+    }
+  }
+
+  handleFollowAccount(e) {
+    this.setState({
+      data: {
+        ...this.state.data,
+        settings: {
+          ...this.state.data.settings,
+          followAccount: !this.state.data.settings.followAccount,
+        },
+      },
+    });
+    console.log(this.state.data.settings.followAccount);
+  }
+
+  handleCommentPost() {
+    this.setState({
+      data: {
+        ...this.state.data,
+        settings: {
+          ...this.state.data.settings,
+          commentPost: !this.state.data.settings.commentPost,
+        },
+      },
+    });
+  }
   handleLikePost(e) {
     this.setState({
       data: {
@@ -61,7 +106,6 @@ export class DashBoard extends React.Component {
         },
       },
     });
-    console.log(this.state.data.settings.likePost);
   }
   handleStartBot(e) {
     this.setState({
@@ -87,7 +131,26 @@ export class DashBoard extends React.Component {
     this.setState({
       data: { ...this.state.data, comments: [...filtered] },
     });
+    console.log(this.state.data.settings);
   }
+
+  insertComment() {
+    this.setState({
+      data: {
+        ...this.state.data,
+        comments: [...this.state.data.comments, this.state.comment],
+      },
+    });
+  }
+  insertHashTags() {
+    this.setState({
+      data: {
+        ...this.state.data,
+        hashTags: [...this.state.data.hashTags, this.state.hashTag],
+      },
+    });
+  }
+
   deleteHashTag(index) {
     const filtered = this.state.data.hashTags.filter((item) => {
       return item !== this.state.data.hashTags[index];
@@ -179,6 +242,7 @@ export class DashBoard extends React.Component {
               type="checkbox"
               name="commentPost"
               placeholder="commentPost"
+              onChange={this.handleCommentPost}
             />
             <label>followAccount</label>
             <input
@@ -186,6 +250,7 @@ export class DashBoard extends React.Component {
               type="checkbox"
               name="followAccount"
               placeholder="followAccount"
+              onChange={this.handleFollowAccount}
             />
 
             {/* HASHTAGS */}
@@ -202,8 +267,14 @@ export class DashBoard extends React.Component {
                   </div>
                 ))}
               </div>
-              <input placeholder="add hashtags" />
+              <div>Add</div>
+              <input
+                name="hashTag"
+                onChange={this.handleChange}
+                placeholder="add hashtags"
+              />
             </div>
+            <i onClick={this.insertHashTags} class="fas fa-plus-circle"></i>
             {/* HASHTAGS */}
 
             {/* Comments */}
@@ -221,7 +292,12 @@ export class DashBoard extends React.Component {
                   </div>
                 ))}
               </div>
-              <input placeholder="add comments" />
+              <input
+                name="comment"
+                placeholder="add comments"
+                onChange={this.handleChange}
+              />
+              <i onClick={this.insertComment} class="fas fa-plus-circle"></i>
             </div>
             {/* Comments */}
 
