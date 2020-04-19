@@ -27,3 +27,15 @@
   transform: scale(1.5);
   color: rgb(207, 35, 35);
 }
+
+#loading-dashboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  flex-direction: column;
+}
+
+.fa-pulse {
+  font-size: 5em;
+}

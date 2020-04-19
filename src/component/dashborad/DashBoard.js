@@ -12,14 +12,23 @@ export class DashBoard extends React.Component {
     this.state = {};
     this.deleteHashTag = this.deleteHashTag.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
-    this.stopBot = this.stopBot.bind(this);
+    // this.stopBot = this.stopBot.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
+    // HANDLE INSTAGRAM ACCOUNT
+    this.handleInstagramAccount = this.handleInstagramAccount.bind(this);
+
+    // MAX DEILY LIKES, COMMENTS AND FOLLOW
+    this.handleMaxDaily = this.handleMaxDaily.bind(this);
+
     // INSERT COMMENT AND HASHTAG
     this.insertComment = this.insertComment.bind(this);
     this.insertHashTags = this.insertHashTags.bind(this);
+
+    // USE DEFAULT COMMENTS TUGGLE
+    this.handleUseDefaultComments = this.handleUseDefaultComments.bind(this);
 
     // TO ACTIVATE BOT
     this.handleStartBot = this.handleStartBot.bind(this);
@@ -27,14 +36,27 @@ export class DashBoard extends React.Component {
     this.handleLikePost = this.handleLikePost.bind(this);
     this.handleCommentPost = this.handleCommentPost.bind(this);
     this.handleFollowAccount = this.handleFollowAccount.bind(this);
-
-    // INSERT COMMENT
   }
+  handleInstagramAccount(e) {
+    this.setState({
+      data: { ...this.state.data, [e.target.name]: e.target.value },
+    });
+  }
+
   handleSignOut() {
     localStorage.clear();
     window.location.href = "/";
   }
-  stopBot() {}
+
+  handleUseDefaultComments(e) {
+    this.setState({
+      data: {
+        ...this.state.data,
+        [e.target.name]: !this.state.data.useDefaultsComment,
+      },
+    });
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     axios
@@ -62,14 +84,20 @@ export class DashBoard extends React.Component {
       });
   }
   handleChange(e) {
-    if (!e.target.value.includes(" ") && e.target.name === "hashTag") {
-      this.setState({
-        [e.target.name]: e.target.value,
-      });
-    } else {
-      console.log("SPACE NOT ALLOWED");
-      console.log(this.state.hashTag);
-    }
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+  handleMaxDaily(e) {
+    this.setState({
+      data: {
+        ...this.state.data,
+        settings: {
+          ...this.state.data.settings,
+          [e.target.name]: e.target.value,
+        },
+      },
+    });
   }
 
   handleFollowAccount(e) {
@@ -114,13 +142,7 @@ export class DashBoard extends React.Component {
         settings: { isBotOn: !this.state.data.settings.isBotOn },
       },
     });
-    axios
-      .post(`http://localhost:5000/api/updateSettings`, { ...this.state.data })
-      .then((res) => {
-        if (res.data.success) {
-          alert(res.data.message);
-        }
-      });
+
     console.log(this.state.data.settings.isBotOn);
   }
 
@@ -134,19 +156,27 @@ export class DashBoard extends React.Component {
     console.log(this.state.data.settings);
   }
 
+  // INSERT HASHTAGS TO THE LIST AFTER HANDLECHANGE IS COMPLETED
+  insertHashTags() {
+    const spaceRegex = /\s/g;
+    this.setState({
+      data: {
+        ...this.state.data,
+        hashTags: [
+          ...this.state.data.hashTags,
+          this.state.hashTag.replace(spaceRegex, ""),
+        ],
+      },
+    });
+  }
+
+  // INSERT COMMENT TO THE LIST AFTER HANDLECHANGE IS COMPLETED
   insertComment() {
+    console.log(this.state.comment);
     this.setState({
       data: {
         ...this.state.data,
         comments: [...this.state.data.comments, this.state.comment],
-      },
-    });
-  }
-  insertHashTags() {
-    this.setState({
-      data: {
-        ...this.state.data,
-        hashTags: [...this.state.data.hashTags, this.state.hashTag],
       },
     });
   }
@@ -169,6 +199,7 @@ export class DashBoard extends React.Component {
             isBotOn={this.state.data.settings.isBotOn}
           />
           <Chart />
+
           <div id="cards-parent-container">
             <Cards
               background="#5C4ED2"
@@ -203,6 +234,20 @@ export class DashBoard extends React.Component {
 
           <form onSubmit={this.handleSubmit}>
             <h1>Settings</h1>
+            <input
+              name="instagramUsername"
+              type="text"
+              placeholder="instagram username"
+              onChange={this.handleInstagramAccount}
+              value={this.state.data.instagramUsername}
+            />
+            <input
+              name="instagramPassword"
+              type="password"
+              placeholder="instagram Password"
+              onChange={this.handleInstagramAccount}
+              value={this.state.data.instagramPassword}
+            />
             <label>maxDeilyLikes</label>
             <input
               value={this.state.data.settings.maxDeilyLikes}
@@ -210,15 +255,17 @@ export class DashBoard extends React.Component {
               max="700"
               name="maxDeilyLikes"
               placeholder="maxDeilyLikes"
-              onChange={this.handleChange}
+              onChange={this.handleMaxDaily}
             />
             <label>maxDeilyComment</label>
             <input
+              // defaultValue={this.state.data.settings.maxDeilyComment}
               value={this.state.data.settings.maxDeilyComment}
               type="number"
               max="700"
               name="maxDeilyComment"
               placeholder="maxDeilyComment"
+              onChange={this.handleMaxDaily}
             />
             <label>maxDeilyFollow</label>
             <input
@@ -227,6 +274,7 @@ export class DashBoard extends React.Component {
               max="700"
               name="maxDeilyFollow"
               placeholder="maxDeilyFollow"
+              onChange={this.handleMaxDaily}
             />
             <label>likePost</label>
             <input
@@ -258,11 +306,11 @@ export class DashBoard extends React.Component {
               <h2>hashTags</h2>
               <div className="hashtags-comment-container">
                 {this.state.data.hashTags.map((item, index) => (
-                  <div>
+                  <div key={index}>
                     {item}
                     <i
                       onClick={() => this.deleteHashTag(index)}
-                      class="fas fa-trash"
+                      className="fas fa-trash"
                     ></i>
                   </div>
                 ))}
@@ -274,30 +322,44 @@ export class DashBoard extends React.Component {
                 placeholder="add hashtags"
               />
             </div>
-            <i onClick={this.insertHashTags} class="fas fa-plus-circle"></i>
+            <i onClick={this.insertHashTags} className="fas fa-plus-circle"></i>
             {/* HASHTAGS */}
 
             {/* Comments */}
             <div>
               <h2>Comments</h2>
               <p>The bot will pick a random comment from the list</p>
+
               <div className="hashtags-comment-container">
                 {this.state.data.comments.map((item, index) => (
-                  <div>
+                  <div key={index}>
                     {item}
                     <i
                       onClick={() => this.deleteComment(index)}
-                      class="fas fa-trash"
+                      className="fas fa-trash"
                     ></i>
                   </div>
                 ))}
+              </div>
+              <div>
+                <p>Use default comments</p>
+                <input
+                  checked={this.state.data.useDefaultsComment}
+                  type="checkbox"
+                  name="useDefaultsComment"
+                  placeholder="useDefaultsComment"
+                  onChange={this.handleUseDefaultComments}
+                />
               </div>
               <input
                 name="comment"
                 placeholder="add comments"
                 onChange={this.handleChange}
               />
-              <i onClick={this.insertComment} class="fas fa-plus-circle"></i>
+              <i
+                onClick={this.insertComment}
+                className="fas fa-plus-circle"
+              ></i>
             </div>
             {/* Comments */}
 
@@ -308,8 +370,9 @@ export class DashBoard extends React.Component {
       );
     } else {
       return (
-        <div>
-          <h1>loading</h1>
+        <div id="loading-dashboard">
+          <i class="fas fa-spinner fa-pulse"></i>
+          <p>Loading..</p>
         </div>
       );
     }

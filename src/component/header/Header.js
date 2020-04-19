@@ -16,12 +16,12 @@ export default class Header extends Component {
 
           {this.props.isBotOn ? (
             <div id="bot-running-container">
-              <i class="fas fa-robot"></i>
+              <i className="fas fa-robot"></i>
               <p>Bot is Running..</p>
             </div>
           ) : (
             <div id="bot-running-container">
-              <i class="fas fa-power-off"></i>
+              <i className="fas fa-power-off"></i>
               <p>Bot is off</p>
             </div>
           )}
