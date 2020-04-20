@@ -5,6 +5,9 @@ import Header from "../header/Header";
 import "./DashBoard.css";
 import axios from "axios";
 
+// ADDRESS OF SERVER OR BACKEND
+import { apiDomain } from "../../serverAddress";
+
 // import { GlobalData } from "../../context/GlobalData";
 export class DashBoard extends React.Component {
   constructor(props) {
@@ -28,7 +31,9 @@ export class DashBoard extends React.Component {
     this.insertHashTags = this.insertHashTags.bind(this);
 
     // USE DEFAULT COMMENTS TUGGLE
-    this.handleUseDefaultComments = this.handleUseDefaultComments.bind(this);
+    this.handleTagPeopleWhoCommented = this.handleTagPeopleWhoCommented.bind(
+      this
+    );
 
     // TO ACTIVATE BOT
     this.handleStartBot = this.handleStartBot.bind(this);
@@ -48,11 +53,11 @@ export class DashBoard extends React.Component {
     window.location.href = "/";
   }
 
-  handleUseDefaultComments(e) {
+  handleTagPeopleWhoCommented(e) {
     this.setState({
       data: {
         ...this.state.data,
-        [e.target.name]: !this.state.data.useDefaultsComment,
+        [e.target.name]: !this.state.data.tagPeopleThatCommented,
       },
     });
   }
@@ -60,7 +65,9 @@ export class DashBoard extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     axios
-      .post(`http://localhost:5000/api/updateSettings`, { ...this.state.data })
+      .post(`${apiDomain}/api/updateSettings`, {
+        ...this.state.data,
+      })
       .then((res) => {
         if (res.data.success) {
           alert(res.data.message);
@@ -69,7 +76,7 @@ export class DashBoard extends React.Component {
   }
   componentDidMount() {
     axios
-      .post(`http://localhost:5000/api/verifytoken`, {
+      .post(`${apiDomain}/api/verifytoken`, {
         token: localStorage.getItem("token"),
       })
       .then((res) => {
@@ -387,13 +394,12 @@ export class DashBoard extends React.Component {
                 ))}
               </div>
               <div>
-                <p>Use default comments</p>
+                <p>Tag 5 people from the comments</p>
                 <input
-                  checked={this.state.data.useDefaultsComment}
+                  checked={this.state.data.tagPeopleThatCommented}
                   type="checkbox"
-                  name="useDefaultsComment"
-                  placeholder="useDefaultsComment"
-                  onChange={this.handleUseDefaultComments}
+                  name="tagPeopleThatCommented"
+                  onChange={this.handleTagPeopleWhoCommented}
                 />
               </div>
               <input

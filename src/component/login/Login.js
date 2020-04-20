@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+// ADDRESS OF SERVER OR BACKEND
+import { apiDomain } from "../../serverAddress";
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -17,20 +20,18 @@ export default class Login extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    axios
-      .post(`http://localhost:5000/api/login`, { ...this.state })
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.success) {
-          localStorage.setItem("token", res.data.token);
-          window.location.href = "/dashboard";
-        } else {
-          alert("wrong password");
-          this.setState({
-            isWrongPassword: true,
-          });
-        }
-      });
+    axios.post(`${apiDomain}/api/login`, { ...this.state }).then((res) => {
+      console.log(res.data);
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        window.location.href = "/dashboard";
+      } else {
+        alert("wrong password");
+        this.setState({
+          isWrongPassword: true,
+        });
+      }
+    });
   }
   componentDidMount() {
     if (localStorage.getItem("token")) {

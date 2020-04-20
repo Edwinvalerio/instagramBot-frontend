@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
+// ADDRESS OF SERVER OR BACKEND
+import { apiDomain } from "../../serverAddress";
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +21,7 @@ export default class Signup extends Component {
     });
     if (e.target.name === `memberEmail`) {
       axios
-        .post(`http://localhost:5000/api/checkemail`, {
+        .post(`${apiDomain}/api/checkemail`, {
           [e.target.name]: e.target.value,
         })
         .then((res) => {
@@ -38,7 +41,7 @@ export default class Signup extends Component {
     e.preventDefault();
     if (!this.state.emailTaken) {
       axios
-        .post(`http://localhost:5000/api/createAccount`, { ...this.state })
+        .post(`${apiDomain}/api/createAccount`, { ...this.state })
         .then((res) => {
           if (res.data.success) {
             window.location.href = "/dashboard";
