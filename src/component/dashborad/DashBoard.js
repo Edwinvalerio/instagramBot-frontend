@@ -31,9 +31,7 @@ export class DashBoard extends React.Component {
     this.insertHashTags = this.insertHashTags.bind(this);
 
     // USE DEFAULT COMMENTS TUGGLE
-    this.handleTagPeopleWhoCommented = this.handleTagPeopleWhoCommented.bind(
-      this
-    );
+    this.handleTagPeopleWhoCommented = this.handleTagPeopleWhoCommented.bind(this);
 
     // TO ACTIVATE BOT
     this.handleStartBot = this.handleStartBot.bind(this);
@@ -169,10 +167,7 @@ export class DashBoard extends React.Component {
     this.setState({
       data: {
         ...this.state.data,
-        hashTags: [
-          ...this.state.data.hashTags,
-          this.state.hashTag.replace(spaceRegex, ""),
-        ],
+        hashTags: [...this.state.data.hashTags, this.state.hashTag.replace(spaceRegex, "")],
       },
     });
   }
@@ -198,79 +193,38 @@ export class DashBoard extends React.Component {
   }
   // static contextType = GlobalData;
   render() {
+    // IF THERES NO TOKEN RE-DIRECT TO HOMEPAGE
+    if (!localStorage.getItem("token")) {
+      window.location.href = "/";
+    }
     if (this.state.data) {
       return (
         <div>
-          <Header
-            instagramUsername={this.state.data.instagramUsername || `😑`}
-            isBotOn={this.state.data.settings.isBotOn}
-          />
+          <Header instagramUsername={this.state.data.instagramUsername || `😑`} isBotOn={this.state.data.settings.isBotOn} />
           {/* <Chart /> */}
 
           <div id="cards-parent-container">
-            <Cards
-              background="#5C4ED2"
-              number={
-                this.state.data.activities.accountsFollowedByBot.filter(
-                  (e) => e.followed === true
-                ).length
-              }
-              title="Bot has followed"
-            />
+            <Cards background="#5C4ED2" number={this.state.data.activities.accountsFollowedByBot.filter((e) => e.followed === true).length} title="Bot has followed" />
             {/* <Cards
               background="#49A1F8"
               number={"bnal"}
               title="Follower gained"
             /> */}
-            <Cards
-              background="#FE0B52"
-              number={
-                this.state.data.activities.accountsFollowedByBot.filter(
-                  (e) => e.liked === true
-                ).length
-              }
-              title="Likes Given"
-            />
-            <Cards
-              background="#FF8100"
-              number={
-                this.state.data.activities.accountsFollowedByBot.filter(
-                  (e) => e.commented === true
-                ).length
-              }
-              title="Comment Given"
-            />
+            <Cards background="#FE0B52" number={this.state.data.activities.accountsFollowedByBot.filter((e) => e.liked === true).length} title="Likes Given" />
+            <Cards background="#FF8100" number={this.state.data.activities.accountsFollowedByBot.filter((e) => e.commented === true).length} title="Comment Given" />
             <Cards
               background="#4287f5"
-              number={
-                this.state.data.activities.accountsFollowedByBot.filter(
-                  (e) =>
-                    e.followed === true &&
-                    e.date === new Date().toLocaleDateString()
-                ).length
-              }
+              number={this.state.data.activities.accountsFollowedByBot.filter((e) => e.followed === true && e.date === new Date().toLocaleDateString()).length}
               title="Today follow"
             />
             <Cards
               background="#52288a"
-              number={
-                this.state.data.activities.accountsFollowedByBot.filter(
-                  (e) =>
-                    e.liked === true &&
-                    e.date === new Date().toLocaleDateString()
-                ).length
-              }
+              number={this.state.data.activities.accountsFollowedByBot.filter((e) => e.liked === true && e.date === new Date().toLocaleDateString()).length}
               title="Today liked"
             />
             <Cards
               background="#303d6e"
-              number={
-                this.state.data.activities.accountsFollowedByBot.filter(
-                  (e) =>
-                    e.commented === true &&
-                    e.date === new Date().toLocaleDateString()
-                ).length
-              }
+              number={this.state.data.activities.accountsFollowedByBot.filter((e) => e.commented === true && e.date === new Date().toLocaleDateString()).length}
               title="Today Commented"
             />
           </div>
@@ -286,29 +240,10 @@ export class DashBoard extends React.Component {
 
           <form onSubmit={this.handleSubmit}>
             <h1>Settings</h1>
-            <input
-              name="instagramUsername"
-              type="text"
-              placeholder="instagram username"
-              onChange={this.handleInstagramAccount}
-              value={this.state.data.instagramUsername}
-            />
-            <input
-              name="instagramPassword"
-              type="password"
-              placeholder="instagram Password"
-              onChange={this.handleInstagramAccount}
-              value={this.state.data.instagramPassword}
-            />
+            <input name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
+            <input name="instagramPassword" type="password" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
             <label>maxDeilyLikes</label>
-            <input
-              value={this.state.data.settings.maxDeilyLikes}
-              type="number"
-              max="30"
-              name="maxDeilyLikes"
-              placeholder="maxDeilyLikes"
-              onChange={this.handleMaxDaily}
-            />
+            <input value={this.state.data.settings.maxDeilyLikes} type="number" max="30" name="maxDeilyLikes" placeholder="maxDeilyLikes" onChange={this.handleMaxDaily} />
             <label>maxDeilyComment</label>
             <input
               // defaultValue={this.state.data.settings.maxDeilyComment}
@@ -320,38 +255,13 @@ export class DashBoard extends React.Component {
               onChange={this.handleMaxDaily}
             />
             <label>maxDeilyFollow</label>
-            <input
-              value={this.state.data.settings.maxDeilyFollow}
-              type="number"
-              max="30"
-              name="maxDeilyFollow"
-              placeholder="maxDeilyFollow"
-              onChange={this.handleMaxDaily}
-            />
+            <input value={this.state.data.settings.maxDeilyFollow} type="number" max="30" name="maxDeilyFollow" placeholder="maxDeilyFollow" onChange={this.handleMaxDaily} />
             <label>likePost</label>
-            <input
-              checked={this.state.data.settings.likePost}
-              type="checkbox"
-              name="likePost"
-              placeholder="likePost"
-              onChange={this.handleLikePost}
-            />
+            <input checked={this.state.data.settings.likePost} type="checkbox" name="likePost" placeholder="likePost" onChange={this.handleLikePost} />
             <label>commentPost</label>
-            <input
-              checked={this.state.data.settings.commentPost}
-              type="checkbox"
-              name="commentPost"
-              placeholder="commentPost"
-              onChange={this.handleCommentPost}
-            />
+            <input checked={this.state.data.settings.commentPost} type="checkbox" name="commentPost" placeholder="commentPost" onChange={this.handleCommentPost} />
             <label>followAccount</label>
-            <input
-              checked={this.state.data.settings.followAccount}
-              type="checkbox"
-              name="followAccount"
-              placeholder="followAccount"
-              onChange={this.handleFollowAccount}
-            />
+            <input checked={this.state.data.settings.followAccount} type="checkbox" name="followAccount" placeholder="followAccount" onChange={this.handleFollowAccount} />
 
             {/* HASHTAGS */}
             <div>
@@ -360,19 +270,12 @@ export class DashBoard extends React.Component {
                 {this.state.data.hashTags.map((item, index) => (
                   <div key={index}>
                     {item}
-                    <i
-                      onClick={() => this.deleteHashTag(index)}
-                      className="fas fa-trash"
-                    ></i>
+                    <i onClick={() => this.deleteHashTag(index)} className="fas fa-trash"></i>
                   </div>
                 ))}
               </div>
               <div>Add</div>
-              <input
-                name="hashTag"
-                onChange={this.handleChange}
-                placeholder="add hashtags"
-              />
+              <input name="hashTag" onChange={this.handleChange} placeholder="add hashtags" />
             </div>
             <i onClick={this.insertHashTags} className="fas fa-plus-circle"></i>
             {/* HASHTAGS */}
@@ -386,31 +289,16 @@ export class DashBoard extends React.Component {
                 {this.state.data.comments.map((item, index) => (
                   <div key={index}>
                     {item}
-                    <i
-                      onClick={() => this.deleteComment(index)}
-                      className="fas fa-trash"
-                    ></i>
+                    <i onClick={() => this.deleteComment(index)} className="fas fa-trash"></i>
                   </div>
                 ))}
               </div>
               <div>
                 <p>Tag 5 people from the comments</p>
-                <input
-                  checked={this.state.data.tagPeopleThatCommented}
-                  type="checkbox"
-                  name="tagPeopleThatCommented"
-                  onChange={this.handleTagPeopleWhoCommented}
-                />
+                <input checked={this.state.data.tagPeopleThatCommented} type="checkbox" name="tagPeopleThatCommented" onChange={this.handleTagPeopleWhoCommented} />
               </div>
-              <input
-                name="comment"
-                placeholder="add comments"
-                onChange={this.handleChange}
-              />
-              <i
-                onClick={this.insertComment}
-                className="fas fa-plus-circle"
-              ></i>
+              <input name="comment" placeholder="add comments" onChange={this.handleChange} />
+              <i onClick={this.insertComment} className="fas fa-plus-circle"></i>
             </div>
             {/* Comments */}
 

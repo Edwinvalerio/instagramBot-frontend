@@ -42,23 +42,9 @@ export default class Login extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input
-            name="memberEmail"
-            type="email"
-            placeholder="Enter your email"
-            required
-            onChange={this.handleChange}
-          />
-          <input
-            name="memberPassword"
-            type="password"
-            placeholder="Enter your password"
-            required
-            onChange={this.handleChange}
-          />
-          {this.state.isWrongPassword ? (
-            <p>Wrong username or password</p>
-          ) : null}
+          <input name="memberEmail" type="email" placeholder="Enter your email" required onChange={this.handleChange} />
+          <input name="memberPassword" type="password" placeholder="Enter your password" required onChange={this.handleChange} />
+          {this.state.isWrongPassword ? <p>Wrong username or password</p> : null}
           <button>Sigin in</button>
         </form>
       </div>
