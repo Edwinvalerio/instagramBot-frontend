@@ -25,12 +25,6 @@ export default class Header extends Component {
               <p>Bot is off</p>
             </div>
           )}
-
-          <img
-            id="avatar-image"
-            src="https://i.pravatar.cc/300"
-            alt="profile"
-          />
         </div>
       </div>
     );

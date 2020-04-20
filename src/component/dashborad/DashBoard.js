@@ -195,15 +195,19 @@ export class DashBoard extends React.Component {
       return (
         <div>
           <Header
-            instagramUsername={this.state.data.instagramUsername}
+            instagramUsername={this.state.data.instagramUsername || `😑`}
             isBotOn={this.state.data.settings.isBotOn}
           />
-          <Chart />
+          {/* <Chart /> */}
 
           <div id="cards-parent-container">
             <Cards
               background="#5C4ED2"
-              number={this.state.data.activities.followByBot}
+              number={
+                this.state.data.activities.accountsFollowedByBot.filter(
+                  (e) => e.followed === true
+                ).length
+              }
               title="Bot has followed"
             />
             {/* <Cards
@@ -213,13 +217,54 @@ export class DashBoard extends React.Component {
             /> */}
             <Cards
               background="#FE0B52"
-              number={this.state.data.activities.likesGiven}
+              number={
+                this.state.data.activities.accountsFollowedByBot.filter(
+                  (e) => e.liked === true
+                ).length
+              }
               title="Likes Given"
             />
             <Cards
               background="#FF8100"
-              number={this.state.data.activities.commentGiven}
+              number={
+                this.state.data.activities.accountsFollowedByBot.filter(
+                  (e) => e.commented === true
+                ).length
+              }
               title="Comment Given"
+            />
+            <Cards
+              background="#4287f5"
+              number={
+                this.state.data.activities.accountsFollowedByBot.filter(
+                  (e) =>
+                    e.followed === true &&
+                    e.date === new Date().toLocaleDateString()
+                ).length
+              }
+              title="Today follow"
+            />
+            <Cards
+              background="#52288a"
+              number={
+                this.state.data.activities.accountsFollowedByBot.filter(
+                  (e) =>
+                    e.liked === true &&
+                    e.date === new Date().toLocaleDateString()
+                ).length
+              }
+              title="Today liked"
+            />
+            <Cards
+              background="#303d6e"
+              number={
+                this.state.data.activities.accountsFollowedByBot.filter(
+                  (e) =>
+                    e.commented === true &&
+                    e.date === new Date().toLocaleDateString()
+                ).length
+              }
+              title="Today Commented"
             />
           </div>
           {this.state.data.settings.isBotOn ? (
@@ -252,7 +297,7 @@ export class DashBoard extends React.Component {
             <input
               value={this.state.data.settings.maxDeilyLikes}
               type="number"
-              max="700"
+              max="30"
               name="maxDeilyLikes"
               placeholder="maxDeilyLikes"
               onChange={this.handleMaxDaily}
@@ -262,7 +307,7 @@ export class DashBoard extends React.Component {
               // defaultValue={this.state.data.settings.maxDeilyComment}
               value={this.state.data.settings.maxDeilyComment}
               type="number"
-              max="700"
+              max="30"
               name="maxDeilyComment"
               placeholder="maxDeilyComment"
               onChange={this.handleMaxDaily}
@@ -271,7 +316,7 @@ export class DashBoard extends React.Component {
             <input
               value={this.state.data.settings.maxDeilyFollow}
               type="number"
-              max="700"
+              max="30"
               name="maxDeilyFollow"
               placeholder="maxDeilyFollow"
               onChange={this.handleMaxDaily}
