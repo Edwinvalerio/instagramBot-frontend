@@ -1,1 +1,1 @@
-export const apiDomain = "http://igbotendpoint.ngrok.io";
+export const apiDomain = "https://igbotendpoint.ngrok.io";
