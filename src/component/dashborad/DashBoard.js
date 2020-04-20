@@ -1,6 +1,6 @@
 import React from "react";
 import Cards from "../cards/Cards";
-import Chart from "../chart/Chart";
+// import Chart from "../chart/Chart";
 import Header from "../header/Header";
 import "./DashBoard.css";
 import axios from "axios";
@@ -78,6 +78,7 @@ export class DashBoard extends React.Component {
         token: localStorage.getItem("token"),
       })
       .then((res) => {
+        console.log(res.data);
         if (res.data.success) {
           this.setState({
             data: res.data,
