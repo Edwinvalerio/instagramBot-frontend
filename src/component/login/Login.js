@@ -41,6 +41,8 @@ export default class Login extends Component {
   render() {
     return (
       <div>
+        <h1> Welcome back!</h1>
+        <p>Use your credentials to Sign In</p>
         <form onSubmit={this.handleSubmit}>
           <input name="memberEmail" type="email" placeholder="Enter your email" required onChange={this.handleChange} />
           <input name="memberPassword" type="password" placeholder="Enter your password" required onChange={this.handleChange} />

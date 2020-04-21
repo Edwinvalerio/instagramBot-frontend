@@ -201,7 +201,7 @@ export class DashBoard extends React.Component {
     if (this.state.data) {
       return (
         <div>
-          <Header instagramUsername={this.state.data.instagramUsername || `😑`} isBotOn={this.state.data.settings.isBotOn} />
+          <Header instagramUsername={this.state.data.instagramUsername || `add your ig account`} isBotOn={this.state.data.settings.isBotOn} />
           {/* <Chart /> */}
 
           <div id="cards-parent-container">
@@ -242,7 +242,7 @@ export class DashBoard extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <h1>Settings</h1>
             <input name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
-            <input name="instagramPassword" type="password" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
+            <input name="instagramPassword" type="text" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
             <label>maxDeilyLikes</label>
             <input value={this.state.data.settings.maxDeilyLikes} type="number" max="30" name="maxDeilyLikes" placeholder="maxDeilyLikes" onChange={this.handleMaxDaily} />
             <label>maxDeilyComment</label>

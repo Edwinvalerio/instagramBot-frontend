@@ -10,9 +10,7 @@ export default class Header extends Component {
     return (
       <div className="container">
         <div id="header">
-          <h1 id="account-username">
-            {instagramUsername ? instagramUsername : null}
-          </h1>
+          <p id="account-username">{instagramUsername ? instagramUsername : null}</p>
 
           {this.props.isBotOn ? (
             <div id="bot-running-container">

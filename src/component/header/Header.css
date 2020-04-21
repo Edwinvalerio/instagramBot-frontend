@@ -4,6 +4,7 @@
   align-items: center;
   background: #067ff0;
   color: white;
+  padding: 0 15px;
 }
 
 #avatar-image {
@@ -15,7 +16,7 @@
 #account-username {
   font-weight: bold;
   color: #ffffff;
-  font-size: 2em;
+  font-size: 1em;
 }
 
 #bot-running-container {

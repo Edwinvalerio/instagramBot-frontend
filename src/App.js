@@ -2,7 +2,9 @@ import React from "react";
 import Login from "./component/login/Login";
 import Signup from "./component/signup/Signup";
 import DashBoard from "./component/dashborad/DashBoard";
-import { NavLink, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import Navbar from "./component/navbar/Navbar";
+import Homepage from "./component/homepage/HomePage";
 
 import "./App.css";
 
@@ -15,29 +17,23 @@ export class App extends React.Component {
   render() {
     return (
       <div>
-        <header>
-          <NavLink to="/">Home</NavLink>
-          <div>
-            <NavLink className="nav-link" to="/about">
-              About
-            </NavLink>
-            <NavLink className="nav-link" to="/login">
-              Log In
-            </NavLink>
-            <NavLink className="nav-link" to="/Signup">
-              Sign up
-            </NavLink>
-          </div>
-        </header>
-        <h1>hell from app</h1>
         <Switch>
           <Route exact path="/dashboard" component={DashBoard} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/Signup" component={Signup} />
+          <Navbar />
         </Switch>
+        <Route exact path="/" component={Homepage} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/Signup" component={Signup} />
       </div>
     );
   }
 }
 
 export default App;
+
+// <h1>
+//             Welcome to IGBot
+//             <span role="img" aria-label="sheep">
+//               🤖
+//             </span>
+//           </h1>
