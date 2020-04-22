@@ -141,11 +141,11 @@ export class DashBoard extends React.Component {
       },
     });
   }
-  handleStartBot(e) {
+  handleStartBot() {
     this.setState({
       data: {
         ...this.state.data,
-        settings: { isBotOn: !this.state.data.settings.isBotOn },
+        settings: { ...this.state.data.settings, isBotOn: !this.state.data.settings.isBotOn },
       },
     });
 
@@ -234,10 +234,10 @@ export class DashBoard extends React.Component {
               STOP BOT
             </button>
           ) : (
-            <button id="start-btn" onClick={this.handleStartBot}>
-              START BOT
+              <button id="start-btn" onClick={this.handleStartBot}>
+                START BOT
             </button>
-          )}
+            )}
 
           <form onSubmit={this.handleSubmit}>
             <h1>Settings</h1>
