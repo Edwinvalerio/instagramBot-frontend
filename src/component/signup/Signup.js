@@ -61,7 +61,7 @@ export default class Signup extends Component {
           <input name="memberEmail" required type="email" placeholder="Enter your email" autoComplete="off" onChange={this.handleChange} />
           {this.state.emailTaken ? <p>Email is taken. Please try another email</p> : null}
           <input required name="memberPassword" type="password" placeholder="Enter your password" autoComplete="off" onChange={this.handleChange} />
-          <input required name="rememberPassword" required type="password" placeholder="Confirm your password" autoComplete="off" onChange={this.handleChange} />
+          <input required name="rememberPassword"  type="password" placeholder="Confirm your password" autoComplete="off" onChange={this.handleChange} />
           <p>
             <input type="checkbox" /> I agree to the Terms of Service and Privacy Policy
           </p>

@@ -243,9 +243,9 @@ export class DashBoard extends React.Component {
             <h1>Settings</h1>
             <input name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
             <input name="instagramPassword" type="text" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
-            <label>maxDeilyLikes</label>
+            <label>maximum daily Likes </label>
             <input value={this.state.data.settings.maxDeilyLikes} type="number" max="30" name="maxDeilyLikes" placeholder="maxDeilyLikes" onChange={this.handleMaxDaily} />
-            <label>maxDeilyComment</label>
+            <label>maximum daily Comment</label>
             <input
               // defaultValue={this.state.data.settings.maxDeilyComment}
               value={this.state.data.settings.maxDeilyComment}
@@ -255,7 +255,7 @@ export class DashBoard extends React.Component {
               placeholder="maxDeilyComment"
               onChange={this.handleMaxDaily}
             />
-            <label>maxDeilyFollow</label>
+            <label>maximum daily Follow</label>
             <input value={this.state.data.settings.maxDeilyFollow} type="number" max="30" name="maxDeilyFollow" placeholder="maxDeilyFollow" onChange={this.handleMaxDaily} />
             <label>likePost</label>
             <input checked={this.state.data.settings.likePost} type="checkbox" name="likePost" placeholder="likePost" onChange={this.handleLikePost} />
