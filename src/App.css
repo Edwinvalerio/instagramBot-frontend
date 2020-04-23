@@ -4,7 +4,7 @@
 } */
 
 body {
-  background: #f2f2f2;
+  background: #f1f3fa;
 }
 
 #cards-parent-container {
@@ -22,6 +22,8 @@ button {
   min-width: 250px;
   min-height: 70px;
   margin: 5px;
+  background: #1976d2;
+  color: white;
 }
 
 #stop-btn {
@@ -62,7 +64,6 @@ form {
 input {
   border-radius: 5px;
   border: none;
-  width: 90vw;
   height: 30px;
   padding: 5px;
   margin: 5px 0;

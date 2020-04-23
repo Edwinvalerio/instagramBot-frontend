@@ -17,11 +17,6 @@ header {
   text-decoration: none;
 }
 
-.active-navbar {
-  color: white !important;
-  background: #4f32d6;
-}
-
 .sigin-btn {
   border-radius: 5px;
   border: 1px solid #000000;
@@ -29,6 +24,12 @@ header {
   padding: 5px 10px;
   text-transform: uppercase;
   color: #000000;
+}
+
+.active-navbar {
+  color: white !important;
+  background: #5e6bf9;
+  border: none;
 }
 .sigup-btn {
   border-radius: 5px;

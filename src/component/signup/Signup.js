@@ -58,10 +58,10 @@ export default class Signup extends Component {
         <h1>Sign Up</h1>
         <p>Create your igBot account</p>
         <form onSubmit={this.handleSubmit}>
-          <input name="memberEmail" required type="email" placeholder="Enter your email" autoComplete="off" onChange={this.handleChange} />
+          <input className="user-inputs" name="memberEmail" required type="email" placeholder="Enter your email" autoComplete="off" onChange={this.handleChange} />
           {this.state.emailTaken ? <p>Email is taken. Please try another email</p> : null}
-          <input required name="memberPassword" type="password" placeholder="Enter your password" autoComplete="off" onChange={this.handleChange} />
-          <input required name="rememberPassword" type="password" placeholder="Confirm your password" autoComplete="off" onChange={this.handleChange} />
+          <input className="user-inputs" required name="memberPassword" type="password" placeholder="Enter your password" autoComplete="off" onChange={this.handleChange} />
+          <input className="user-inputs" required name="rememberPassword" type="password" placeholder="Confirm your password" autoComplete="off" onChange={this.handleChange} />
           <p>
             <input type="checkbox" /> I agree to the Terms of Service and Privacy Policy
           </p>
