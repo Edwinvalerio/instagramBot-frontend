@@ -3,6 +3,22 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+#membership-msg{
+  background: red;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  min-height: 40px;
+  margin: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  flex-direction: column
+}
+
 .hashtags-comment-container div {
   margin: 5px;
   padding: 5px;

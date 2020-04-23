@@ -78,7 +78,7 @@ export class DashBoard extends React.Component {
         token: localStorage.getItem("token"),
       })
       .then((res) => {
-        console.log(res.data);
+
         if (res.data.success) {
           this.setState({
             data: res.data,
@@ -201,8 +201,14 @@ export class DashBoard extends React.Component {
     if (this.state.data) {
       return (
         <div>
-          <Header instagramUsername={this.state.data.instagramUsername || `add your ig account`} isBotOn={this.state.data.settings.isBotOn} />
-          {/* <Chart /> */}
+          <Header instagramUsername={this.state.data.instagramUsername || `add your ig account`} isBotOn={this.state.data.settings.isBotOn} isMemberShipAcctive={this.state.data.isMemberShipAcctive} />
+          {!this.state.data.isMemberShipAcctive ? <div id="membership-msg">
+            <h1>Membership not active</h1>
+            <p>Please contact developer to activate your membership</p>
+          </div> : null}
+
+
+          {/* <Chart data={this.state.data.activities.accountsFollowedByBot}/> */}
 
           <div id="cards-parent-container">
             <Cards background="#5C4ED2" number={this.state.data.activities.accountsFollowedByBot.filter((e) => e.followed === true).length} title="Bot has followed" />
@@ -244,7 +250,7 @@ export class DashBoard extends React.Component {
             <input name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
             <input name="instagramPassword" type="text" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
             <label>maximum daily Likes </label>
-            <input value={this.state.data.settings.maxDeilyLikes} type="number" max="30" name="maxDeilyLikes" placeholder="maxDeilyLikes" onChange={this.handleMaxDaily} />
+            <input value={this.state.data.settings.maxDeilyLikes} type="number" max="20" name="maxDeilyLikes" placeholder="maxDeilyLikes" onChange={this.handleMaxDaily} />
             <label>maximum daily Comment</label>
             <input
               // defaultValue={this.state.data.settings.maxDeilyComment}
@@ -307,6 +313,7 @@ export class DashBoard extends React.Component {
           </form>
           <button onClick={this.handleSignOut}>log out</button>
         </div>
+
       );
     } else {
       return (

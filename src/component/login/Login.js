@@ -9,6 +9,7 @@ export default class Login extends Component {
     super(props);
     this.state = {
       isWrongPassword: false,
+      isLogInBtnDisabled: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -19,9 +20,13 @@ export default class Login extends Component {
     });
   }
   handleSubmit(e) {
+
     e.preventDefault();
+    this.setState({
+      isLogInBtnDisabled: true
+    })
     axios.post(`${apiDomain}/api/login`, { ...this.state }).then((res) => {
-      console.log(res.data);
+
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
         window.location.href = "/dashboard";
@@ -29,9 +34,17 @@ export default class Login extends Component {
         alert("wrong password");
         this.setState({
           isWrongPassword: true,
+          isLogInBtnDisabled: false
         });
       }
+
+
+
+      this.setState({
+        isLogInBtnDisabled: false
+      })
     });
+
   }
   componentDidMount() {
     if (localStorage.getItem("token")) {
@@ -47,7 +60,7 @@ export default class Login extends Component {
           <input name="memberEmail" type="email" placeholder="Enter your email" required onChange={this.handleChange} />
           <input name="memberPassword" type="password" placeholder="Enter your password" required onChange={this.handleChange} />
           {this.state.isWrongPassword ? <p>Wrong username or password</p> : null}
-          <button>Sigin in</button>
+          <button disabled={this.state.isLogInBtnDisabled}>Sigin in</button>
         </form>
       </div>
     );
