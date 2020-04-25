@@ -308,7 +308,7 @@ export class DashBoard extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <h1>Settings</h1>
             <input className="add-input" name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
-            <input className="add-input" name="instagramPassword" type="text" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
+            <input className="add-input" name="instagramPassword" type="password" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
             <label>
               Maximum Daily Likes <i class="fas fa-heart"></i>
             </label>
@@ -366,13 +366,13 @@ export class DashBoard extends React.Component {
                 <i class="fas fa-certificate"></i>. and also make sure the user has a very active account
               </p>
               {this.state.data.userThatInteractWith.map((item, index) => (
-                <div className="mini-cards" key={index}>
+                <div data-aos="fade-up" className="mini-cards" key={index}>
                   @{item}
                   <i onClick={() => this.deleteAccountUser(index)} className="fas fa-trash"></i>
                 </div>
               ))}
 
-              <input className="add-input" name="account" onChange={this.handleChange} placeholder="add Account" />
+              <input className="add-input" name="account" onChange={this.handleChange} placeholder="Add User" />
               <button type="button" onClick={this.inserAccounts}>
                 ADD
               </button>
@@ -384,12 +384,12 @@ export class DashBoard extends React.Component {
               <h2>hashTags</h2>
               <p className="notes">Using this option the but will look for users that had used theses hashTag in the past.</p>
               {this.state.data.hashTags.map((item, index) => (
-                <div className="mini-cards" key={index}>
+                <div data-aos="fade-up" className="mini-cards" key={index}>
                   #{item}
                   <i onClick={() => this.deleteHashTag(index)} className="fas fa-trash"></i>
                 </div>
               ))}
-              <input className="add-input" name="hashTag" onChange={this.handleChange} placeholder="add hashtags" />
+              <input className="add-input" name="hashTag" onChange={this.handleChange} placeholder="Add Hashtags" />
               <button type="button" onClick={this.insertHashTags}>
                 {" "}
                 ADD
@@ -403,7 +403,7 @@ export class DashBoard extends React.Component {
               <h2>Comments</h2>
               <p>The bot will pick a random comment from the list</p>
               {this.state.data.comments.map((item, index) => (
-                <div className="mini-cards" key={index}>
+                <div data-aos="fade-up" className="mini-cards" key={index}>
                   {item}
                   <i onClick={() => this.deleteComment(index)} className="fas fa-trash"></i>
                 </div>
@@ -414,7 +414,7 @@ export class DashBoard extends React.Component {
                 </p>
                 <input checked={this.state.data.tagPeopleThatCommented} type="checkbox" name="tagPeopleThatCommented" onChange={this.handleTagPeopleWhoCommented} />
               </div>
-              <input className="add-input" name="comment" placeholder="add comments" onChange={this.handleChange} />
+              <input className="add-input" name="comment" placeholder="Add Comments" onChange={this.handleChange} />
               <button type="button" onClick={this.insertComment}>
                 ADD
               </button>
