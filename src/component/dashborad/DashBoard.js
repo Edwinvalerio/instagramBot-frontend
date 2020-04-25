@@ -13,6 +13,7 @@ export class DashBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.deleteAccountUser = this.deleteAccountUser.bind(this);
     this.deleteHashTag = this.deleteHashTag.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
     // this.stopBot = this.stopBot.bind(this);
@@ -26,12 +27,17 @@ export class DashBoard extends React.Component {
     // MAX DEILY LIKES, COMMENTS AND FOLLOW
     this.handleMaxDaily = this.handleMaxDaily.bind(this);
 
-    // INSERT COMMENT AND HASHTAG
+    // INSERT COMMENT & HASHTAG & ACCOUNTS
     this.insertComment = this.insertComment.bind(this);
     this.insertHashTags = this.insertHashTags.bind(this);
+    this.inserAccounts = this.inserAccounts.bind(this);
 
     // USE DEFAULT COMMENTS TUGGLE
     this.handleTagPeopleWhoCommented = this.handleTagPeopleWhoCommented.bind(this);
+
+    // TUGGLE GET FOLLOWERS BY ACCCOUNT OR  HASHTAGS
+    this.tagle_by_username = this.tagle_by_username.bind(this);
+    this.tagle_by_hashtags = this.tagle_by_hashtags.bind(this);
 
     // TO ACTIVATE BOT
     this.handleStartBot = this.handleStartBot.bind(this);
@@ -78,7 +84,6 @@ export class DashBoard extends React.Component {
         token: localStorage.getItem("token"),
       })
       .then((res) => {
-
         if (res.data.success) {
           this.setState({
             data: res.data,
@@ -89,11 +94,39 @@ export class DashBoard extends React.Component {
         }
       });
   }
+
+  tagle_by_username() {
+    this.setState({
+      data: {
+        ...this.state.data,
+        settings: {
+          ...this.state.data.settings,
+          followByUserName: true,
+          followByHashTags: false,
+        },
+      },
+    });
+  }
+
+  tagle_by_hashtags() {
+    this.setState({
+      data: {
+        ...this.state.data,
+        settings: {
+          ...this.state.data.settings,
+          followByUserName: false,
+          followByHashTags: true,
+        },
+      },
+    });
+  }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
+
   handleMaxDaily(e) {
     this.setState({
       data: {
@@ -163,24 +196,48 @@ export class DashBoard extends React.Component {
   }
 
   // INSERT HASHTAGS TO THE LIST AFTER HANDLECHANGE IS COMPLETED
+  inserAccounts() {
+    const spaceRegex = /\s/g;
+    if (this.state.account) {
+      this.setState({
+        data: {
+          ...this.state.data,
+          userThatInteractWith: [...this.state.data.userThatInteractWith, this.state.account.replace(spaceRegex, "")],
+        },
+      });
+    }
+  }
+  // INSERT HASHTAGS TO THE LIST AFTER HANDLECHANGE IS COMPLETED
   insertHashTags() {
     const spaceRegex = /\s/g;
-    this.setState({
-      data: {
-        ...this.state.data,
-        hashTags: [...this.state.data.hashTags, this.state.hashTag.replace(spaceRegex, "")],
-      },
-    });
+    if (this.state.hashTag) {
+      this.setState({
+        data: {
+          ...this.state.data,
+          hashTags: [...this.state.data.hashTags, this.state.hashTag.replace(spaceRegex, "")],
+        },
+      });
+    }
   }
 
   // INSERT COMMENT TO THE LIST AFTER HANDLECHANGE IS COMPLETED
   insertComment() {
-    console.log(this.state.comment);
+    if (this.state.comment) {
+      this.setState({
+        data: {
+          ...this.state.data,
+          comments: [...this.state.data.comments, this.state.comment],
+        },
+      });
+    }
+  }
+
+  deleteAccountUser(index) {
+    const userThatInteractWith = this.state.data.userThatInteractWith.filter((item) => {
+      return item !== this.state.data.userThatInteractWith[index];
+    });
     this.setState({
-      data: {
-        ...this.state.data,
-        comments: [...this.state.data.comments, this.state.comment],
-      },
+      data: { ...this.state.data, userThatInteractWith: [...userThatInteractWith] },
     });
   }
 
@@ -199,14 +256,17 @@ export class DashBoard extends React.Component {
       window.location.href = "/";
     }
     if (this.state.data) {
+      console.log(this.state.data.settings);
+
       return (
         <div>
           <Header instagramUsername={this.state.data.instagramUsername || `add your ig account`} isBotOn={this.state.data.settings.isBotOn} isMemberShipAcctive={this.state.data.isMemberShipAcctive} />
-          {!this.state.data.isMemberShipAcctive ? <div id="membership-msg">
-            <h1>Membership not active</h1>
-            <p>Please contact developer to activate your membership</p>
-          </div> : null}
-
+          {!this.state.data.isMemberShipAcctive ? (
+            <div id="membership-msg">
+              <h1>Membership not active</h1>
+              <p>Please contact developer to activate your membership</p>
+            </div>
+          ) : null}
 
           {/* <Chart data={this.state.data.activities.accountsFollowedByBot}/> */}
 
@@ -240,80 +300,132 @@ export class DashBoard extends React.Component {
               STOP BOT
             </button>
           ) : (
-              <button id="start-btn" onClick={this.handleStartBot}>
-                START BOT
+            <button id="start-btn" onClick={this.handleStartBot}>
+              START BOT
             </button>
-            )}
+          )}
 
           <form onSubmit={this.handleSubmit}>
             <h1>Settings</h1>
-            <input name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
-            <input name="instagramPassword" type="text" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
-            <label>maximum daily Likes </label>
-            <input value={this.state.data.settings.maxDeilyLikes} type="number" max="20" name="maxDeilyLikes" placeholder="maxDeilyLikes" onChange={this.handleMaxDaily} />
-            <label>maximum daily Comment</label>
-            <input
-              // defaultValue={this.state.data.settings.maxDeilyComment}
-              value={this.state.data.settings.maxDeilyComment}
-              type="number"
-              max="30"
-              name="maxDeilyComment"
-              placeholder="maxDeilyComment"
-              onChange={this.handleMaxDaily}
-            />
-            <label>maximum daily Follow</label>
-            <input value={this.state.data.settings.maxDeilyFollow} type="number" max="30" name="maxDeilyFollow" placeholder="maxDeilyFollow" onChange={this.handleMaxDaily} />
-            <label>likePost</label>
-            <input checked={this.state.data.settings.likePost} type="checkbox" name="likePost" placeholder="likePost" onChange={this.handleLikePost} />
-            <label>commentPost</label>
-            <input checked={this.state.data.settings.commentPost} type="checkbox" name="commentPost" placeholder="commentPost" onChange={this.handleCommentPost} />
-            <label>followAccount</label>
-            <input checked={this.state.data.settings.followAccount} type="checkbox" name="followAccount" placeholder="followAccount" onChange={this.handleFollowAccount} />
+            <input className="add-input" name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
+            <input className="add-input" name="instagramPassword" type="text" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
+            <label>
+              Maximum Daily Likes <i class="fas fa-heart"></i>
+            </label>
+            <input className="add-input" value={this.state.data.settings.maxDeilyLikes} type="number" max="100" name="maxDeilyLikes" placeholder="maxDeilyLikes" onChange={this.handleMaxDaily} />
+            <label>
+              Maximum Daily Comment <i class="fas fa-comment"></i>
+            </label>
+            <input className="add-input" value={this.state.data.settings.maxDeilyComment} type="number" max="100" name="maxDeilyComment" placeholder="maxDeilyComment" onChange={this.handleMaxDaily} />
+            <label>
+              Maximum Daily Follow <i class="fas fa-user-plus"></i>
+            </label>
+            <input className="add-input" value={this.state.data.settings.maxDeilyFollow} type="number" max="100" name="maxDeilyFollow" placeholder="maxDeilyFollow" onChange={this.handleMaxDaily} />
+
+            {/* TARGET ACCOUNTS */}
+
+            <div id="toggle-container">
+              <div className="check-box-contaner">
+                <label>
+                  Like Posts <i class="fas fa-heart"></i>
+                </label>
+
+                <input checked={this.state.data.settings.likePost} type="checkbox" name="likePost" placeholder="likePost" onChange={this.handleLikePost} />
+              </div>
+              <div className="check-box-contaner">
+                <label>
+                  Comment Posts <i class="fas fa-comment"></i>
+                </label>
+
+                <input checked={this.state.data.settings.commentPost} type="checkbox" name="commentPost" placeholder="commentPost" onChange={this.handleCommentPost} />
+              </div>
+              <div className="check-box-contaner">
+                <label>
+                  Follow Accounts <i class="fas fa-user-plus"></i>
+                </label>
+                <input checked={this.state.data.settings.followAccount} type="checkbox" name="followAccount" placeholder="followAccount" onChange={this.handleFollowAccount} />
+              </div>
+              <div className="check-box-contaner">
+                <label>
+                  Follow Accounts that interact with users entered bellow <i class="fas fa-users"></i>
+                </label>
+                <input checked={this.state.data.settings.followByUserName} type="checkbox" name="user_or_hashTag" onChange={this.tagle_by_username} />
+              </div>
+              <div className="check-box-contaner">
+                <label>
+                  Follow user by hashtagts <i class="fas fa-hashtag"></i>
+                </label>
+                <input checked={this.state.data.settings.followByHashTags} type="checkbox" name="user_or_hashTag" onChange={this.tagle_by_hashtags} />
+              </div>
+            </div>
+
+            <div className="hashtags-comment-container">
+              <h2>Users</h2>
+              <p className="notes">
+                The bot will Like, Follow & Comment accounts that interact with users in this list. if your want to gain more followers make sure the users is <strong>NOT</strong> Verified{" "}
+                <i class="fas fa-certificate"></i>. and also make sure the user has a very active account
+              </p>
+              {this.state.data.userThatInteractWith.map((item, index) => (
+                <div className="mini-cards" key={index}>
+                  @{item}
+                  <i onClick={() => this.deleteAccountUser(index)} className="fas fa-trash"></i>
+                </div>
+              ))}
+
+              <input className="add-input" name="account" onChange={this.handleChange} placeholder="add Account" />
+              <button type="button" onClick={this.inserAccounts}>
+                ADD
+              </button>
+            </div>
+            {/* TARGET ACCOUNTS */}
 
             {/* HASHTAGS */}
-            <div>
+            <div className="hashtags-comment-container">
               <h2>hashTags</h2>
-              <div className="hashtags-comment-container">
-                {this.state.data.hashTags.map((item, index) => (
-                  <div key={index}>
-                    {item}
-                    <i onClick={() => this.deleteHashTag(index)} className="fas fa-trash"></i>
-                  </div>
-                ))}
-              </div>
-              <div>Add</div>
-              <input name="hashTag" onChange={this.handleChange} placeholder="add hashtags" />
+              <p className="notes">Using this option the but will look for users that had used theses hashTag in the past.</p>
+              {this.state.data.hashTags.map((item, index) => (
+                <div className="mini-cards" key={index}>
+                  #{item}
+                  <i onClick={() => this.deleteHashTag(index)} className="fas fa-trash"></i>
+                </div>
+              ))}
+              <input className="add-input" name="hashTag" onChange={this.handleChange} placeholder="add hashtags" />
+              <button type="button" onClick={this.insertHashTags}>
+                {" "}
+                ADD
+              </button>
             </div>
-            <i onClick={this.insertHashTags} className="fas fa-plus-circle"></i>
             {/* HASHTAGS */}
 
             {/* Comments */}
-            <div>
+
+            <div className="hashtags-comment-container">
               <h2>Comments</h2>
               <p>The bot will pick a random comment from the list</p>
-
-              <div className="hashtags-comment-container">
-                {this.state.data.comments.map((item, index) => (
-                  <div key={index}>
-                    {item}
-                    <i onClick={() => this.deleteComment(index)} className="fas fa-trash"></i>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <p>Tag 5 people from the comments</p>
+              {this.state.data.comments.map((item, index) => (
+                <div className="mini-cards" key={index}>
+                  {item}
+                  <i onClick={() => this.deleteComment(index)} className="fas fa-trash"></i>
+                </div>
+              ))}
+              <div className="check-box-contaner">
+                <p>
+                  Tag<strong> 5 </strong>random users after commenting
+                </p>
                 <input checked={this.state.data.tagPeopleThatCommented} type="checkbox" name="tagPeopleThatCommented" onChange={this.handleTagPeopleWhoCommented} />
               </div>
-              <input name="comment" placeholder="add comments" onChange={this.handleChange} />
-              <i onClick={this.insertComment} className="fas fa-plus-circle"></i>
+              <input className="add-input" name="comment" placeholder="add comments" onChange={this.handleChange} />
+              <button type="button" onClick={this.insertComment}>
+                ADD
+              </button>
             </div>
+
             {/* Comments */}
 
             <button id="update-btn">APPLY CHANGES</button>
+            <i onClick={this.handleSignOut} class="fas fa-sign-out-alt"></i>
           </form>
-          <button onClick={this.handleSignOut}>log out</button>
         </div>
-
       );
     } else {
       return (

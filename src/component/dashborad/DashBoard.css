@@ -1,10 +1,27 @@
 .hashtags-comment-container {
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: center; */
+
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(117, 117, 117, 1);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(117, 117, 117, 1);
+  box-shadow: 0px 0px 5px 0px rgba(117, 117, 117, 1);
+  background: white;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 15px;
 }
 
-#membership-msg{
+#toggle-container {
+  width: 90%;
+  max-width: 390px;
+}
+
+#membership-msg {
   background: red;
   border-radius: 5px;
   text-align: center;
@@ -16,10 +33,14 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  flex-direction: column
+  flex-direction: column;
+}
+.add-input {
+  border: 1px solid grey;
+  text-align: center;
 }
 
-.hashtags-comment-container div {
+.mini-cards {
   margin: 5px;
   padding: 5px;
   border-radius: 5px;
@@ -30,6 +51,11 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  justify-content: space-between;
+}
+
+.notes {
+  color: grey;
 }
 
 .fa-trash {
@@ -43,6 +69,20 @@
   transform: scale(1.5);
   color: rgb(207, 35, 35);
 }
+.fa-certificate {
+  color: #3897f0;
+}
+
+.fa-heart {
+  color: #ed4956;
+}
+.fa-comment {
+  color: grey;
+}
+
+.fa-user-plus {
+  color: #0095f6;
+}
 
 #loading-dashboard {
   display: flex;
@@ -54,4 +94,29 @@
 
 .fa-pulse {
   font-size: 5em;
+}
+
+.fa-sign-out-alt {
+  color: rgb(160, 9, 9);
+  font-size: 2em;
+  margin: 10px;
+  position: fixed;
+  left: 10px;
+  top: 10px;
+}
+#update-btn {
+  background: #01751e;
+  color: white;
+  font-weight: 600;
+}
+
+.check-box-contaner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin: 5px 0;
+  border-bottom: 1px dashed grey;
+  width: 100%;
 }
