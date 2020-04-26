@@ -308,7 +308,8 @@ export class DashBoard extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <h1>Settings</h1>
             <input className="add-input" name="instagramUsername" type="text" placeholder="instagram username" onChange={this.handleInstagramAccount} value={this.state.data.instagramUsername} />
-            <input className="add-input" name="instagramPassword" type="password" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
+            <input className="add-input" name="instagramPassword" type="text" placeholder="instagram Password" onChange={this.handleInstagramAccount} value={this.state.data.instagramPassword} />
+
             <label>
               Maximum Daily Likes <i class="fas fa-heart"></i>
             </label>
@@ -345,12 +346,16 @@ export class DashBoard extends React.Component {
                 </label>
                 <input checked={this.state.data.settings.followAccount} type="checkbox" name="followAccount" placeholder="followAccount" onChange={this.handleFollowAccount} />
               </div>
-              <div className="check-box-contaner">
+
+              {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
+              {/* <div className="check-box-contaner">
                 <label>
                   Follow Accounts that interact with users entered bellow <i class="fas fa-users"></i>
                 </label>
                 <input checked={this.state.data.settings.followByUserName} type="checkbox" name="user_or_hashTag" onChange={this.tagle_by_username} />
-              </div>
+              </div> */}
+              {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
+
               <div className="check-box-contaner">
                 <label>
                   Follow user by hashtagts <i class="fas fa-hashtag"></i>
@@ -359,7 +364,9 @@ export class DashBoard extends React.Component {
               </div>
             </div>
 
-            <div className="hashtags-comment-container">
+            {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
+            {/* TARGET ACCOUNTS */}
+            {/* <div className="hashtags-comment-container">
               <h2>Users</h2>
               <p className="notes">
                 The bot will Like, Follow & Comment accounts that interact with users in this list. if your want to gain more followers make sure the users is <strong>NOT</strong> Verified{" "}
@@ -376,8 +383,9 @@ export class DashBoard extends React.Component {
               <button type="button" onClick={this.inserAccounts}>
                 ADD
               </button>
-            </div>
-            {/* TARGET ACCOUNTS */}
+            </div> */}
+
+            {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
 
             {/* HASHTAGS */}
             <div className="hashtags-comment-container">
@@ -391,7 +399,6 @@ export class DashBoard extends React.Component {
               ))}
               <input className="add-input" name="hashTag" onChange={this.handleChange} placeholder="Add Hashtags" />
               <button type="button" onClick={this.insertHashTags}>
-                {" "}
                 ADD
               </button>
             </div>
