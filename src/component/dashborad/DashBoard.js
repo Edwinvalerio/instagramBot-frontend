@@ -348,12 +348,12 @@ export class DashBoard extends React.Component {
               </div>
 
               {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
-              {/* <div className="check-box-contaner">
+              <div className="check-box-contaner">
                 <label>
                   Follow Accounts that interact with users entered bellow <i class="fas fa-users"></i>
                 </label>
                 <input checked={this.state.data.settings.followByUserName} type="checkbox" name="user_or_hashTag" onChange={this.tagle_by_username} />
-              </div> */}
+              </div>
               {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
 
               <div className="check-box-contaner">
@@ -366,7 +366,7 @@ export class DashBoard extends React.Component {
 
             {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
             {/* TARGET ACCOUNTS */}
-            {/* <div className="hashtags-comment-container">
+            <div className="hashtags-comment-container">
               <h2>Users</h2>
               <p className="notes">
                 The bot will Like, Follow & Comment accounts that interact with users in this list. if your want to gain more followers make sure the users is <strong>NOT</strong> Verified{" "}
@@ -383,7 +383,7 @@ export class DashBoard extends React.Component {
               <button type="button" onClick={this.inserAccounts}>
                 ADD
               </button>
-            </div> */}
+            </div>
 
             {/* FIXME: DELETE THIS AFTER FOLLOW BY USER IS FIXED */}
 
